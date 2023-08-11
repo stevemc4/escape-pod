@@ -1,11 +1,11 @@
 {
   "version": "5",
   "dialect": "pg",
-  "id": "c1873044-3f45-46fc-91b3-2860576e29b2",
+  "id": "0ffd1f37-0187-429b-ab5e-9ff36b6ee8ae",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
-    "users": {
-      "name": "users",
+    "accounts": {
+      "name": "accounts",
       "schema": "",
       "columns": {
         "id": {
@@ -32,6 +32,19 @@
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "role": {
+          "name": "role",
+          "type": "role",
+          "primaryKey": false,
+          "notNull": true
         }
       },
       "indexes": {},
@@ -40,7 +53,16 @@
       "uniqueConstraints": {}
     }
   },
-  "enums": {},
+  "enums": {
+    "role": {
+      "name": "role",
+      "values": {
+        "admin": "admin",
+        "staff": "staff",
+        "user": "user"
+      }
+    }
+  },
   "schemas": {},
   "_meta": {
     "schemas": {},
