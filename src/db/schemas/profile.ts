@@ -4,8 +4,8 @@ import { pgTable, varchar, uuid, timestamp, pgEnum } from 'drizzle-orm/pg-core'
 export const roleEnum = pgEnum('role', ['admin', 'staff', 'user'])
 
 export const profiles = pgTable('profile', {
-  id: uuid('id').primaryKey(),
-  account_id: uuid('account_id'),
+  id: uuid('id').primaryKey().defaultRandom(),
+  account_id: uuid('account_id').notNull(),
   name: varchar('username', { length: 256 }).notNull(),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull()

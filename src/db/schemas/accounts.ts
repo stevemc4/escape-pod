@@ -5,8 +5,8 @@ import { profiles } from './profile'
 export const roleEnum = pgEnum('role', ['admin', 'staff', 'user'])
 
 export const accounts = pgTable('accounts', {
-  id: uuid('id').primaryKey(),
-  username: varchar('username', { length: 256 }).notNull(),
+  id: uuid('id').primaryKey().defaultRandom(),
+  username: varchar('username', { length: 256 }).notNull().unique(),
   password: varchar('password').notNull(),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
