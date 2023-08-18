@@ -1,3 +1,4 @@
-import { accounts } from './accounts'
+import { accounts, accountsRelations } from './accounts'
+import { profiles } from './profile'
 
-export { accounts }
+export { accounts, accountsRelations, profiles }
