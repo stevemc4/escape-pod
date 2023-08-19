@@ -7,7 +7,7 @@ export const roomStatusEnum = pgEnum('roomStatusEnum', ['available', 'unavailabl
 
 export const rooms = pgTable('room', {
   id: uuid('id').primaryKey().defaultRandom(),
-  roomTypeId: uuid('room_type_id').notNull(),
+  roomTypeId: uuid('room_type_id').notNull().references(() => roomTypes.id, { onDelete: 'restrict', onUpdate: 'cascade' }),
   roomNumber: varchar('roomNumber', { length: 16 }).notNull(),
   price: numeric('price'),
   status: roomStatusEnum('status').notNull().default('available'),
