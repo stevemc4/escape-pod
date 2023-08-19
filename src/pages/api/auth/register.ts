@@ -1,6 +1,5 @@
 import bcrypt from 'bcrypt'
 import { eq } from 'drizzle-orm'
-import { SignJWT } from 'jose'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { objectAsync, stringAsync, ValiError, string, minLength } from 'valibot'
 
@@ -9,6 +8,7 @@ import { accounts, NewAccount } from '../../../db/schemas/accounts'
 import { profiles, NewProfile } from '../../../db/schemas/profile'
 
 import { error, success } from '../../../utils/response'
+import createToken from '../../../utils/token'
 
 const registerValidator = objectAsync({
   username: stringAsync([async (input, info) => {
@@ -54,13 +54,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
 
     const createdProfile = await db.insert(profiles).values(newProfile).returning()
 
-    const secret = new TextEncoder().encode(process.env.AUTH_SECRET ?? 'UNSAFE_SECRET_PLEASE_SET')
-    const token = await new SignJWT({ sub: createdAccount[0].id, name: createdProfile[0].name })
-      .setProtectedHeader({ alg: 'HS256', typ: 'JWT' })
-      .setExpirationTime('30m')
-      .setIssuedAt()
-      .setIssuer('Example.com')
-      .sign(secret)
+    const token = createToken(createdAccount[0].id, createdProfile[0].name)
 
     res.status(200).json(success({
       token
