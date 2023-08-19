@@ -7,7 +7,7 @@ import { db } from '../../../db/client'
 import { accounts } from '../../../db/schemas/accounts'
 
 import { error, success } from '../../../utils/response'
-import createToken from '../../../utils/token'
+import { createToken } from '../../../utils/token'
 
 const loginValidator = objectAsync({
   username: stringAsync(),

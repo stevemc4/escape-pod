@@ -8,7 +8,7 @@ import { accounts, NewAccount } from '../../../db/schemas/accounts'
 import { profiles, NewProfile } from '../../../db/schemas/profile'
 
 import { error, success } from '../../../utils/response'
-import createToken from '../../../utils/token'
+import { createToken } from '../../../utils/token'
 
 const registerValidator = objectAsync({
   username: stringAsync([async (input, info) => {
