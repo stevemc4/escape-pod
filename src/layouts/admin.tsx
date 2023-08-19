@@ -1,6 +1,6 @@
 import React, { FC, PropsWithChildren } from 'react'
 import Link from 'next/link'
-import { Home24Filled, Bed24Filled } from '@fluentui/react-icons'
+import { Home24Filled, Bed24Filled, Person24Filled, PersonAccounts24Filled, BookClock24Filled } from '@fluentui/react-icons'
 
 const AdminLayout: FC<PropsWithChildren> = ({ children }) => {
   return (
@@ -16,6 +16,15 @@ const AdminLayout: FC<PropsWithChildren> = ({ children }) => {
         </Link>
         <Link href="/admin/rooms" className="p-2 hover:bg-blue-200 rounded text-gray-800">
           <Bed24Filled />
+        </Link>
+        <Link href="/admin/reservations" className="p-2 hover:bg-blue-200 rounded text-gray-800">
+          <BookClock24Filled />
+        </Link>
+        <Link href="/admin/accounts" className="p-2 hover:bg-blue-200 rounded text-gray-800">
+          <Person24Filled />
+        </Link>
+        <Link href="/admin/guests" className="p-2 hover:bg-blue-200 rounded text-gray-800">
+          <PersonAccounts24Filled />
         </Link>
       </div>
       <div className="overflow-y-auto p-4">
