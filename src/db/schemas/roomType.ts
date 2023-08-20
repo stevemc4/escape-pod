@@ -1,5 +1,5 @@
 import { InferModel, relations } from 'drizzle-orm'
-import { pgTable, varchar, uuid, timestamp, text, integer, numeric } from 'drizzle-orm/pg-core'
+import { pgTable, varchar, uuid, timestamp, text, integer, doublePrecision } from 'drizzle-orm/pg-core'
 
 import { rooms } from './room'
 
@@ -9,7 +9,7 @@ export const roomTypes = pgTable('room_types', {
   shortDescription: varchar('short_desc', { length: 256 }).notNull().default(''),
   description: text('description').notNull().default(''),
   maxOccupant: integer('max_occupant').notNull().default(1),
-  basePrice: numeric('base_price').notNull(),
+  basePrice: doublePrecision('base_price').notNull(),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull()
 })

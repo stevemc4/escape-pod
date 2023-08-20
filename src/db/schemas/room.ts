@@ -17,7 +17,10 @@ export const rooms = pgTable('room', {
 })
 
 export const roomsRelations = relations(rooms, ({ one }) => ({
-  roomType: one(roomTypes)
+  roomType: one(roomTypes, {
+    fields: [rooms.roomTypeId],
+    references: [roomTypes.id]
+  })
 }))
 
 export type Room = InferModel<typeof rooms, 'select'>
