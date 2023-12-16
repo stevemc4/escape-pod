@@ -1,10 +1,12 @@
-import React, { FC, PropsWithChildren } from 'react'
+'use client'
+
+import { FC, PropsWithChildren } from 'react'
 import Link from 'next/link'
 import { Home24Filled, Bed24Filled, Person24Filled, PersonAccounts24Filled, BookClock24Filled } from '@fluentui/react-icons'
 
 const AdminLayout: FC<PropsWithChildren> = ({ children }) => {
   return (
-    <main className="grid grid-cols-[72px_minmax(0,_1fr)] h-screen">
+    <div className="grid grid-cols-[72px_minmax(0,_1fr)] h-screen">
       <div className="w-full border-r-2 border-r-gray-300 p-1 flex flex-col gap-2 items-center">
         <div className="p-2">
           <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -30,7 +32,7 @@ const AdminLayout: FC<PropsWithChildren> = ({ children }) => {
       <div className="overflow-y-auto p-4">
         { children }
       </div>
-    </main>
+    </div>
   )
 }
 

@@ -1,8 +1,10 @@
-import React, { FC, FormEvent } from 'react'
+'use client'
+
+import { FC, FormEvent } from 'react'
 import useSWRMutation from 'swr/mutation'
-import { mutator } from '../../utils/fetcher'
-import { ResponseShape } from '../../utils/response'
-import { useRouter } from 'next/router'
+import { mutator } from '../../../utils/fetcher'
+import { ResponseShape } from '../../../utils/response'
+import { useRouter } from 'next/navigation'
 
 const Login: FC = () => {
   const { trigger, isMutating, error } = useSWRMutation('/api/auth/login', mutator)
