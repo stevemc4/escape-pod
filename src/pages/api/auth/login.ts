@@ -34,14 +34,22 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
     const account = await db.query.accounts.findFirst({ where: eq(accounts.username, parsed.username), with: { profile: true } })
 
     if (!account) {
-      res.status(200).json(error(200, 'Invalid username or password'))
+      res.status(400).json(error(400, 'Invalid username or password'))
       return
+    }
+
+    if (req.headers.referer) {
+      const referrer = new URL(req.headers.referer).pathname
+      if (referrer === '/admin/login' && account.role === 'user') {
+        res.status(400).json(error(400, 'Invalid username or password'))
+        return
+      }
     }
 
     const passwordMatch = await bcrypt.compare(parsed.password, account.password)
 
     if (!passwordMatch) {
-      res.status(200).json(error(200, 'Invalid username or password'))
+      res.status(400).json(error(400, 'Invalid username or password'))
       return
     }
 
