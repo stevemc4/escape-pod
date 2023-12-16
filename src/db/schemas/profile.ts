@@ -9,6 +9,7 @@ export const profiles = pgTable('profile', {
   id: uuid('id').primaryKey().defaultRandom(),
   account_id: uuid('account_id').notNull().references(() => accounts.id, { onDelete: 'restrict', onUpdate: 'cascade' }),
   name: varchar('username', { length: 256 }).notNull(),
+  email: varchar('email').notNull().unique(),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull()
 })

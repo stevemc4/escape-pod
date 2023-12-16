@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt'
 import { eq } from 'drizzle-orm'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { objectAsync, stringAsync, ValiError, string, minLength } from 'valibot'
+import { objectAsync, stringAsync, ValiError, string, minLength, email } from 'valibot'
 
 import { db } from '../../../db/client'
 import { accounts, NewAccount } from '../../../db/schemas/accounts'
@@ -17,6 +17,7 @@ const registerValidator = objectAsync({
     return input
   }]),
   password: string([minLength(8)]),
+  email: string([email()]),
   name: string([minLength(1)])
 })
 
@@ -49,6 +50,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
 
     const newProfile: NewProfile = {
       name: parsed.name,
+      email: parsed.email,
       account_id: createdAccount[0].id
     }
 
