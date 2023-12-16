@@ -1,7 +1,7 @@
 import { InferModel, relations } from 'drizzle-orm'
 import { pgTable, pgEnum, varchar, uuid, timestamp, doublePrecision } from 'drizzle-orm/pg-core'
 
-import { roomTypes } from './roomType'
+import { roomTypes, RoomType } from './roomType'
 
 export const roomStatusEnum = pgEnum('roomStatusEnum', ['available', 'unavailable', 'cleaning', 'maintenance', 'other'])
 
@@ -25,3 +25,6 @@ export const roomsRelations = relations(rooms, ({ one }) => ({
 
 export type Room = InferModel<typeof rooms, 'select'>
 export type NewRoom = InferModel<typeof rooms, 'insert'>
+export interface RoomWithRoomType extends Room {
+  roomType: RoomType
+}

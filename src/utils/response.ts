@@ -14,7 +14,7 @@ export function success<T = unknown> (body: T, status = 200): ResponseShape<T> {
   }
 }
 
-export function error<T = unknown> (status: number, message: string, detail: T | undefined = undefined) {
+export function error<T = unknown> (status: number, message: string, detail: T | undefined = undefined): ResponseShape<T> {
   return {
     status,
     error: {
