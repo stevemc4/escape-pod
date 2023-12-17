@@ -1,7 +1,7 @@
 import { eq } from 'drizzle-orm'
 import { createInsertSchema } from 'drizzle-valibot'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { undefinedType, ValiError, string, uuid, object } from 'valibot'
+import { undefined_, ValiError, string, uuid, object, parse } from 'valibot'
 
 import { db } from '../../../db/client'
 import { rooms, NewRoom } from '../../../db/schemas/room'
@@ -9,21 +9,21 @@ import { roomTypes } from '../../../db/schemas/roomType'
 
 import { error, success } from '../../../utils/response'
 
-const updateSchema = createInsertSchema(rooms, {
-  id: undefinedType(),
-  createdAt: undefinedType(),
-  updatedAt: undefinedType(),
+const UpdateSchema = createInsertSchema(rooms, {
+  id: undefined_(),
+  createdAt: undefined_(),
+  updatedAt: undefined_(),
   roomTypeId: string([uuid()])
 })
 
-const querySchema = object({
+const QuerySchema = object({
   id: string([uuid()])
 })
 
 export default async function handler (req: NextApiRequest, res: NextApiResponse) {
   try {
     if (req.method === 'GET') {
-      const query = querySchema.parse(req.query)
+      const query = parse(QuerySchema, req.query)
 
       const room = await db.query.rooms.findFirst({ with: { roomType: true }, where: eq(rooms.id, query.id) })
 
@@ -41,7 +41,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
         return
       }
 
-      const query = querySchema.parse(req.query)
+      const query = parse(QuerySchema, req.query)
 
       const room = await db.query.rooms.findFirst({ with: { roomType: true }, where: eq(rooms.id, query.id) })
 
@@ -49,7 +49,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
         res.status(404).json(error(404, 'Room not found'))
       }
 
-      const parsed = updateSchema.parse(req.body)
+      const parsed = parse(UpdateSchema, req.body)
 
       const roomType = await db.query.roomTypes.findFirst({ where: eq(roomTypes.id, parsed.roomTypeId) })
 

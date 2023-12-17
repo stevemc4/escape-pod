@@ -1,7 +1,7 @@
 import { eq } from 'drizzle-orm'
 import { createInsertSchema } from 'drizzle-valibot'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { undefinedType, ValiError, string, uuid } from 'valibot'
+import { undefined_, ValiError, string, uuid, parse } from 'valibot'
 
 import { db } from '../../../db/client'
 import { rooms, NewRoom } from '../../../db/schemas/room'
@@ -9,10 +9,10 @@ import { roomTypes } from '../../../db/schemas/roomType'
 
 import { error, success } from '../../../utils/response'
 
-const insertSchema = createInsertSchema(rooms, {
-  id: undefinedType(),
-  createdAt: undefinedType(),
-  updatedAt: undefinedType(),
+const InsertSchema = createInsertSchema(rooms, {
+  id: undefined_(),
+  createdAt: undefined_(),
+  updatedAt: undefined_(),
   roomTypeId: string([uuid()])
 })
 
@@ -31,7 +31,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
         return
       }
 
-      const parsed = insertSchema.parse(req.body)
+      const parsed = parse(InsertSchema, req.body)
 
       const roomType = await db.query.roomTypes.findFirst({ where: eq(roomTypes.id, parsed.roomTypeId) })
 

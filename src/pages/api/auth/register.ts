@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt'
 import { eq } from 'drizzle-orm'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { objectAsync, stringAsync, ValiError, string, minLength, email } from 'valibot'
+import { objectAsync, stringAsync, ValiError, string, minLength, email, customAsync, parseAsync } from 'valibot'
 
 import { db } from '../../../db/client'
 import { accounts, NewAccount } from '../../../db/schemas/accounts'
@@ -10,12 +10,12 @@ import { profiles, NewProfile } from '../../../db/schemas/profile'
 import { error, success } from '../../../utils/response'
 import { createToken } from '../../../utils/token'
 
-const registerValidator = objectAsync({
-  username: stringAsync([async (input, info) => {
+const RegisterValidator = objectAsync({
+  username: stringAsync([customAsync(async (input) => {
     const existingUser = await db.query.accounts.findFirst({ where: eq(accounts.username, input) })
-    if (existingUser) throw new ValiError([{ validation: 'database', origin: 'value', message: 'Duplicate user', input, ...info }])
-    return input
-  }]),
+    if (existingUser) return false
+    return true
+  })]),
   password: string([minLength(8)]),
   email: string([email()]),
   name: string([minLength(1)])
@@ -33,7 +33,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
   }
 
   try {
-    const parsed = await registerValidator.parse(req.body)
+    const parsed = await parseAsync(RegisterValidator, req.body)
     if (!parsed) {
       res.status(400).json({ error: 'Bad request' })
     }

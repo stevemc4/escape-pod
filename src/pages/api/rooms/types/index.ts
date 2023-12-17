@@ -1,16 +1,16 @@
 import { createInsertSchema } from 'drizzle-valibot'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { undefinedType, ValiError } from 'valibot'
+import { undefined_, ValiError, parse } from 'valibot'
 
 import { db } from '../../../../db/client'
 import { roomTypes, NewRoomType } from '../../../../db/schemas/roomType'
 
 import { error, success } from '../../../../utils/response'
 
-const insertSchema = createInsertSchema(roomTypes, {
-  id: undefinedType(),
-  createdAt: undefinedType(),
-  updatedAt: undefinedType()
+const InsertSchema = createInsertSchema(roomTypes, {
+  id: undefined_(),
+  createdAt: undefined_(),
+  updatedAt: undefined_()
 })
 
 export default async function handler (req: NextApiRequest, res: NextApiResponse) {
@@ -28,7 +28,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
         return
       }
 
-      const parsed = insertSchema.parse(req.body)
+      const parsed = parse(InsertSchema, req.body)
 
       const newRoomType: NewRoomType = {
         name: parsed.name,
