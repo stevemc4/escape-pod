@@ -15,7 +15,7 @@ const RegisterValidator = objectAsync({
     const existingUser = await db.query.accounts.findFirst({ where: eq(accounts.username, input) })
     if (existingUser) return false
     return true
-  })]),
+  }, 'User already exists')]),
   password: string([minLength(8)]),
   email: string([email()]),
   name: string([minLength(1)])
