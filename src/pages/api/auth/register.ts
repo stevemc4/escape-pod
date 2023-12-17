@@ -51,7 +51,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
     const newProfile: NewProfile = {
       name: parsed.name,
       email: parsed.email,
-      account_id: createdAccount[0].id
+      accountId: createdAccount[0].id
     }
 
     const createdProfile = await db.insert(profiles).values(newProfile).returning()
